@@ -1,1 +1,1 @@
-import '../components/simple-card/simple-card.js';
+import '../components/simple-card/simple-card';

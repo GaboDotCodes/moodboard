@@ -12,7 +12,10 @@ module.exports = {
   },
   rules: {
     'import/extensions': ['error', {
-      js: 'always',
+      css: 'always',
+    }],
+    'import/no-unresolved': ['error', {
+      css: 'always',
     }],
   },
 };
