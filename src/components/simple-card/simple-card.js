@@ -9,11 +9,11 @@ export default class SimpleCard extends HTMLElement {
       <style>
         ${styles}
       </style>
-      <img src='${this.imageUrl}'/>
+      <img class="main-image" src='${this.imageUrl}'/>
       <footer>
         <section>
           <h1>${this.title}</h1>
-          <span>${this.description}</span>
+          ${this.description? `<span>${this.description}</span>`: ''}
         </section>
         <div id="like-button" class="like-button">
           ${this.liked
@@ -22,6 +22,14 @@ export default class SimpleCard extends HTMLElement {
         </div>
       </footer>
     `;
+  }
+
+  get id() {
+    return this.getAttribute('id')
+  }
+
+  set id(value) {
+    this.setAttribute('id', value)
   }
 
   get title() {
@@ -41,11 +49,11 @@ export default class SimpleCard extends HTMLElement {
   }
 
   get imageUrl() {
-    return this.getAttribute('imageUrl')
+    return this.getAttribute('image-url')
   }
 
   set imageUrl(value) {
-    this.setAttribute('imageUrl', value)
+    this.setAttribute('image-url', value)
   }
 
   get liked() {
@@ -71,7 +79,7 @@ export default class SimpleCard extends HTMLElement {
 
   static observedAttributes = ["liked"];
 
-  attributeChangedCallback(attr, oldValue, newValue) {
+  attributeChangedCallback(attr) {
     switch (attr) {
       case 'liked':
         this.updateLikedButton()
@@ -80,9 +88,11 @@ export default class SimpleCard extends HTMLElement {
   }
   
   updateLikedButton() {
-    this.likeButton.innerHTML = this.liked
-      ? `<img class="image-button" src='./assets/heart-solid.svg'>`
-      : `<img class="image-button" src='./assets/heart-regular.svg'>`
+    if (this.likeButton) {
+      this.likeButton.innerHTML = this.liked
+        ? `<img class="image-button" src='./assets/heart-solid.svg'>`
+        : `<img class="image-button" src='./assets/heart-regular.svg'>`
+    }
   }
 }
 

@@ -1,8 +1,8 @@
 import { createClient } from 'pexels';
 
-const client = createClient('563492ad6f91700001000001ba77f3b2d3dd465e9629fe1deed5a3d0');
+const client = createClient('563492ad6f9170000100000178405c376a004403b407dc7646fb95de');
 
-const getImages = async (query) => client.photos.search({ query, per_page: 1 })
+const getImages = async (query, page = 1, per_page = 3) => client.photos.search({ query, per_page, page })
 
 export default getImages;
 

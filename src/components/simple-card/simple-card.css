@@ -6,3 +6,6 @@
   @apply h-32 hover:cursor-pointer;
 }
 
+.main-image {
+  min-height: 200px;
+}
