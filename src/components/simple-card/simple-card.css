@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 .image-button {
-  @apply h-32 hover:cursor-pointer;
+  @apply h-10 hover:cursor-pointer;
 }
 
 .main-image {
   min-height: 200px;
+}
+
+:host {
+  @apply w-full rounded;
 }

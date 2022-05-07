@@ -6,9 +6,10 @@ export default class SimpleCard extends HTMLElement {
     this.like = this.like.bind(this)
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
-      <style>
-        ${styles}
-      </style>
+    <style>
+      ${styles}
+    </style>
+    <div>
       <img class="main-image" src='${this.imageUrl}'/>
       <footer>
         <section>
@@ -21,6 +22,7 @@ export default class SimpleCard extends HTMLElement {
             : `<img class="image-button" src='./assets/heart-regular.svg'>`}
         </div>
       </footer>
+    </div>
     `;
   }
 
