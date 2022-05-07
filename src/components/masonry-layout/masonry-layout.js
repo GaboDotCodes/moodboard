@@ -8,13 +8,13 @@ export default class MasonryLayout extends HTMLElement {
       <style>
         ${styles}
       </style>
-      <div id="container">
+      <div class="container">
       </div>
     `;
   }
 
   connectedCallback() {
-    this.container = this.shadowRoot.querySelector('#container');
+    this.container = this.shadowRoot.querySelector('.container');
   }
 
   get cards() {
