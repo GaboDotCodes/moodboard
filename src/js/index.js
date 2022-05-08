@@ -3,9 +3,12 @@ import "../views/view-home/view-home";
 
 import Router from "./Router/Router";
 import routes from "./Router/routes";
+import state from "./State/state";
 
 const container = document.querySelector('#root');
 
-const router = new Router(container, routes);
+state.dispatch('router.set', new Router(container, routes));
 
-router.load(routes.home);
+const { router } = state.getState()
+
+router.load(routes.home)
