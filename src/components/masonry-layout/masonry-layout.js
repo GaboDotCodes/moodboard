@@ -1,6 +1,6 @@
 import styles from 'bundle-text:./masonry-layout.css';
 
-export default class MasonryLayout extends HTMLElement {
+class MasonryLayout extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -37,3 +37,5 @@ export default class MasonryLayout extends HTMLElement {
 }
 
 window.customElements.define('masonry-layout', MasonryLayout);
+
+export default MasonryLayout;

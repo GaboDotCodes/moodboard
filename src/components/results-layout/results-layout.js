@@ -5,7 +5,7 @@ import getImages from '../../js/helpers/getImages';
 
 import styles from 'bundle-text:./results-layout.css';
 
-export default class ResultsLayout extends HTMLElement {
+class ResultsLayout extends HTMLElement {
   constructor() {
     super();
     this.lastElement = null;
@@ -92,3 +92,5 @@ export default class ResultsLayout extends HTMLElement {
 }
 
 window.customElements.define('results-layout', ResultsLayout);
+
+export default ResultsLayout;

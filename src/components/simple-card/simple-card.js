@@ -1,6 +1,6 @@
 import styles from 'bundle-text:./simple-card.css';
 
-export default class SimpleCard extends HTMLElement {
+class SimpleCard extends HTMLElement {
   constructor() {
     super();
     this.like = this.like.bind(this)
@@ -99,3 +99,5 @@ export default class SimpleCard extends HTMLElement {
 }
 
 window.customElements.define('simple-card', SimpleCard);
+
+export default SimpleCard;
