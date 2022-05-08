@@ -78,8 +78,8 @@ class ResultsLayout extends HTMLElement {
   async attributeChangedCallback(attr, _oldValue, newValue) {
     switch (attr) {
       case 'query':
-        this.shadowRoot.querySelector('span').innerHTML = `Results by "${this.query}"`;
-        const { next_page, page, photos } = await getImages(this.query);
+        this.shadowRoot.querySelector('span').innerHTML = `Results by "${newValue}"`;
+        const { next_page, page, photos } = await getImages(newValue);
         this.nextPage = next_page;
         this.page = page;
         const cards = photos.map(({ alt, id, src: { medium } }) =>
