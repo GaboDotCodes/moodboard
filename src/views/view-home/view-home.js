@@ -1,3 +1,5 @@
+import '../../components/results-layout/results-layout'
+
 import styles from 'bundle-text:./view-home.css';
 
 export default class ViewHome extends HTMLElement {
@@ -8,7 +10,7 @@ export default class ViewHome extends HTMLElement {
       <style>
         ${styles}
       </style>
-      <h1>Home</h1>
+      <results-layout query="cats"></results-layout>
     `;
   }
 }

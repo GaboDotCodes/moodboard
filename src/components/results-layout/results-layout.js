@@ -1,5 +1,9 @@
-import styles from 'bundle-text:./results-layout.css';
+import '../masonry-layout/masonry-layout'
+import '../simple-card/simple-card'
+
 import getImages from '../../js/helpers/getImages';
+
+import styles from 'bundle-text:./results-layout.css';
 
 export default class ResultsLayout extends HTMLElement {
   constructor() {
