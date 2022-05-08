@@ -4,17 +4,20 @@ import '../simple-card/simple-card'
 import getImages from '../../js/helpers/getImages';
 
 import styles from 'bundle-text:./results-layout.css';
+import state from '../../js/State/state';
 
 class ResultsLayout extends HTMLElement {
   constructor() {
     super();
     this.lastElement = null;
     this.observerCallback = this.observerCallback.bind(this);
+    this.listener = this.listener.bind(this);
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
         ${styles}
       </style>
+      <span>Search for something to inspiration!</span>
       <masonry-layout></masonry-layout>
     `;
   }
@@ -31,14 +34,19 @@ class ResultsLayout extends HTMLElement {
     }
   }
 
+  listener(_oldState, newState) {
+    const { query } = newState;
+    if (query) this.query = query;
+  }
 
   connectedCallback() {
     this.masonryLayout = this.shadowRoot.querySelector('masonry-layout');
-    this.observer = new IntersectionObserver(this.observerCallback, { threshold: 0.2 })   
+    this.observer = new IntersectionObserver(this.observerCallback, { threshold: 0.2 });
+    state.subscribe(this.listener)
   }
 
   disconnectedCallback() {
-    
+    state.unsubscribe(this.listener);
   }
 
   get query() {
@@ -67,9 +75,10 @@ class ResultsLayout extends HTMLElement {
 
   static observedAttributes = ['query', 'page'];
 
-  async attributeChangedCallback(attr) {
+  async attributeChangedCallback(attr, _oldValue, newValue) {
     switch (attr) {
       case 'query':
+        this.shadowRoot.querySelector('span').innerHTML = `Results by "${this.query}"`;
         const { next_page, page, photos } = await getImages(this.query);
         this.nextPage = next_page;
         this.page = page;
