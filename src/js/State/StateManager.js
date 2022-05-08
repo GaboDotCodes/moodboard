@@ -1,11 +1,11 @@
 class StateManager {
   #state;
-  #listener;
+  #listeners;
   #reducer;
 
   constructor(reducer, initialState) {
     this.#state = initialState;
-    this.#listener = () => {};
+    this.#listeners = [() => {}];
     this.#reducer = reducer;
   }
 
@@ -16,7 +16,7 @@ class StateManager {
   dispatch(action, payload) {
     const oldState = this.#state;
     this.#state = this.#reducer(this.#state, action, payload);
-    this.#listener(oldState, this.#state);
+    this.#listeners.forEach(listener => listener(oldState, this.#state));
   }
 
   /**
@@ -30,7 +30,14 @@ class StateManager {
    * @param {listener} listener - Function that will be excute when state change
    */
   subscribe(listener) {
-    this.#listener = listener;
+    this.#listeners = [ ...this.#listeners, listener];
+    return () => {
+      this.#listeners.filter((savedListener) => savedListener !== listener);
+    }
+  }
+
+  unsubscribe(listener) {
+    this.#listeners.filter((savedListener) => savedListener !== listener);
   }
 }
 

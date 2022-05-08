@@ -1,10 +1,6 @@
 import stateActions from "./stateActions";
 import StateManager from "./StateManager";
 
-const initialState = {
-  valor: 0
-};
-
-const state = new StateManager(stateActions, initialState)
+const state = new StateManager(stateActions, {})
 
 export default state;

@@ -1,8 +1,9 @@
 const stateActions = (state, action, payload) => {
-  const { router } = state;
   switch (action) {
     case 'router.set':
       return { ...state, router: payload };
+    case 'query.set':
+      return { ...state, query: payload };
   }
 }
 
