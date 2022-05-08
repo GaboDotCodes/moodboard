@@ -1,7 +1,7 @@
 import '../masonry-layout/masonry-layout'
 import '../simple-card/simple-card'
 
-import getImages from '../../js/helpers/getImages';
+import { getImages } from '../../js/helpers/pexels';
 
 import styles from 'bundle-text:./results-layout.css';
 import state from '../../js/State/state';
