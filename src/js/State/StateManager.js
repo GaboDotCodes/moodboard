@@ -1,12 +1,12 @@
 class StateManager {
   #state;
   #listeners;
-  #reducer;
+  #stateActions;
 
-  constructor(reducer, initialState) {
+  constructor(stateActions, initialState) {
     this.#state = initialState;
-    this.#listeners = [() => {}];
-    this.#reducer = reducer;
+    this.#listeners = [];
+    this.#stateActions = stateActions;
   }
 
   getState() {
@@ -15,8 +15,8 @@ class StateManager {
 
   dispatch(action, payload) {
     const oldState = this.#state;
-    this.#state = this.#reducer(this.#state, action, payload);
-    this.#listeners.forEach(listener => listener(oldState, this.#state));
+    this.#state = this.#stateActions(this.#state, action, payload);
+    if (this.#listeners.length > 0) this.#listeners.forEach(listener => listener(oldState, this.#state));
   }
 
   /**
@@ -32,12 +32,12 @@ class StateManager {
   subscribe(listener) {
     this.#listeners = [ ...this.#listeners, listener];
     return () => {
-      this.#listeners.filter((savedListener) => savedListener !== listener);
+      this.#listeners = this.#listeners.filter((savedListener) => savedListener !== listener);
     }
   }
 
   unsubscribe(listener) {
-    this.#listeners.filter((savedListener) => savedListener !== listener);
+    this.#listeners = this.#listeners.filter((savedListener) => savedListener !== listener);
   }
 }
 
