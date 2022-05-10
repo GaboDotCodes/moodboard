@@ -23,7 +23,7 @@ class SearchBar extends HTMLElement {
    */
   searchHandler(e) {
     e.preventDefault();
-    state.dispatch('query.set', this.input.value);
+    state.dispatch('query', 'set', this.input.value);
   }
 
   connectedCallback() {

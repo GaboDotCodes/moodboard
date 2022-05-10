@@ -26,7 +26,7 @@ class ResultsLayout extends HTMLElement {
     if (isIntersecting && this.nextPage) {
       const { next_page, page, photos } = await getImages(this.query, this.page + 1);
       const cards = photos.map(({ alt, id, src: { medium } }) =>
-      `<simple-card id='${id}' title='${alt}' image-url='${medium}'></simple-card>`
+      `<simple-card id='card-id-${id}' title='${alt}' image-url='${medium}'></simple-card>`
       )
       this.masonryLayout.cards = [ ...this.masonryLayout.cards, ...cards];
       this.nextPage = next_page;
@@ -35,18 +35,17 @@ class ResultsLayout extends HTMLElement {
   }
 
   listener(_oldState, newState) {
-    const { query } = newState;
-    if (query) this.query = query;
+    this.query = newState;
   }
 
   connectedCallback() {
     this.masonryLayout = this.shadowRoot.querySelector('masonry-layout');
     this.observer = new IntersectionObserver(this.observerCallback, { threshold: 0.2 });
-    state.subscribe(this.listener)
+    state.subscribe('query', this.listener)
   }
 
   disconnectedCallback() {
-    state.unsubscribe(this.listener);
+    state.unsubscribe('query', this.listener);
   }
 
   get query() {

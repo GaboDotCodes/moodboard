@@ -9,14 +9,20 @@ class StateManager {
     this.#stateActions = stateActions;
   }
 
-  getState() {
+  getState(field) {
+    if (field) return this.#state[field];
     return this.#state;
   }
 
-  dispatch(action, payload) {
-    const oldState = this.#state;
-    this.#state = this.#stateActions(this.#state, action, payload);
-    if (this.#listeners.length > 0) this.#listeners.forEach(listener => listener(oldState, this.#state));
+  dispatch(field, action, payload) {
+    const oldState = this.#state[field];
+    this.#state[field] = this.#stateActions[field](this.#state[field], action, payload);
+    const updated = JSON.stringify(oldState) !== JSON.stringify(this.#state[field]);
+    if (this.#listeners.length > 0 && updated) {
+      this.#listeners.forEach(({field: listenField, listener}) => {
+        if (listenField === field ) listener(oldState, this.#state[field])
+      });
+    }
   }
 
   /**
@@ -27,17 +33,18 @@ class StateManager {
    */
   /**
    * Subscribe to state changes and execute a listener
+   * @param {string} field - The state's key that want listen 
    * @param {listener} listener - Function that will be excute when state change
    */
-  subscribe(listener) {
-    this.#listeners = [ ...this.#listeners, listener];
+  subscribe(field, listener) {
+    this.#listeners = [ ...this.#listeners, { field, listener }];
     return () => {
-      this.#listeners = this.#listeners.filter((savedListener) => savedListener !== listener);
+      this.#listeners = this.#listeners.filter((saved) => saved.field !== field && saved.listener !== listener);
     }
   }
 
-  unsubscribe(listener) {
-    this.#listeners = this.#listeners.filter((savedListener) => savedListener !== listener);
+  unsubscribe(field, listener) {
+    this.#listeners = this.#listeners.filter((saved) => saved.field !== field && saved.listener !== listener);
   }
 }
 

@@ -1,4 +1,5 @@
 import styles from 'bundle-text:./simple-card.css';
+import state from '../../js/State/state';
 
 class SimpleCard extends HTMLElement {
   constructor() {
@@ -69,6 +70,12 @@ class SimpleCard extends HTMLElement {
   connectedCallback() {
     this.likeButton = this.shadowRoot.querySelector('#like-button');
     this.likeButton.addEventListener('click', this.like)
+    const favorites = state.getState('favorites');
+    if (favorites) {
+      this.liked = (favorites
+        .filter(({id}) => id === this.id.slice(8))
+        .length) >= 1;
+    }
   }
 
   disconnectedCallback() {
@@ -90,6 +97,8 @@ class SimpleCard extends HTMLElement {
   }
   
   updateLikedButton() {
+    const payload = { id: this.id.slice(8), query: state.getState('query')};
+    state.dispatch('favorites', this.liked? 'add': 'remove', payload);
     if (this.likeButton) {
       this.likeButton.innerHTML = this.liked
         ? `<img class="image-button" src='./assets/heart-solid.svg'>`
