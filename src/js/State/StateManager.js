@@ -1,10 +1,14 @@
 class StateManager {
+  #appId;
   #state;
   #listeners;
   #stateActions;
 
-  constructor(stateActions, initialState) {
-    this.#state = initialState;
+  constructor(appId, stateActions, initialState) {
+    this.#appId = appId;
+    const savedState = JSON.parse(window.localStorage.getItem(`state-${this.#appId}`));
+    this.#state = { ...savedState, ...initialState };
+    console.log(this.#state);
     this.#listeners = [];
     this.#stateActions = stateActions;
   }
@@ -14,9 +18,21 @@ class StateManager {
     return this.#state;
   }
 
-  dispatch(field, action, payload) {
+  dispatch(field, action, payload, save = false) {
     const oldState = this.#state[field];
     this.#state[field] = this.#stateActions[field](this.#state[field], action, payload);
+    if (save) {
+      const savedState = JSON.parse(window.localStorage.getItem(`state-${this.#appId}`));
+      console.log(savedState);
+      if (savedState) {
+        savedState[field] = this.#state[field];
+        window.localStorage.setItem(`state-${this.#appId}`, JSON.stringify(savedState));
+      } else {
+        const firstSave = {}
+        Object.defineProperty(firstSave, field, { value: this.#state[field], enumerable: true });
+        window.localStorage.setItem(`state-${this.#appId}`, JSON.stringify(firstSave));
+      }
+    }
     const updated = JSON.stringify(oldState) !== JSON.stringify(this.#state[field]);
     if (this.#listeners.length > 0 && updated) {
       this.#listeners.forEach(({field: listenField, listener}) => {
