@@ -1,6 +1,7 @@
 import styles from 'bundle-text:./masonry-layout.css';
 
 class MasonryLayout extends HTMLElement {
+  #container;
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -14,25 +15,23 @@ class MasonryLayout extends HTMLElement {
   }
 
   connectedCallback() {
-    this.container = this.shadowRoot.querySelector('.container');
+    this.#container = this.shadowRoot.querySelector('.container');
   }
 
-  get cards() {
-    return JSON.parse(this.getAttribute('cards'))
+  setCards(newCards) {
+    this.#container.innerHTML = newCards.join('');
   }
 
-  set cards(value) {
-    this.setAttribute('cards', JSON.stringify(value))
+  addCard(newCard) {
+    this.#container.insertAdjacentHTML('beforeend', newCard);
   }
 
-  static observedAttributes = ['cards'];
+  addCards(newCards) {
+    newCards.forEach(newCard => this.addCard(newCard))
+  }
 
-  attributeChangedCallback(attr, oldValue, newValue) {
-    switch (attr) {
-      case 'cards':
-        this.container.innerHTML = this.cards.join('');
-        break;
-    }
+  getLastCard() {
+    return this.#container.lastElementChild;
   }
 }
 
