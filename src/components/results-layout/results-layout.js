@@ -28,7 +28,7 @@ class ResultsLayout extends HTMLElement {
       const cards = photos.map(({ alt, id, src: { medium } }) =>
       `<simple-card id='card-id-${id}' title='${alt}' image-url='${medium}'></simple-card>`
       )
-      this.masonryLayout.cards = [ ...this.masonryLayout.cards, ...cards];
+      this.masonryLayout.addCards(cards);
       this.nextPage = next_page;
       this.page = page;
     }
@@ -84,14 +84,14 @@ class ResultsLayout extends HTMLElement {
         const cards = photos.map(({ alt, id, src: { medium } }) =>
           `<simple-card id='card-id-${id}' title='${alt}' image-url='${medium}'></simple-card>`
         )
-        this.masonryLayout.cards = cards;
-        this.lastElement = this.masonryLayout.shadowRoot.lastElementChild.lastElementChild;
+        this.masonryLayout.setCards(cards)
+        this.lastElement = this.masonryLayout.getLastCard();
         this.observer.observe(this.lastElement)
         break;
         case 'page':
           if (this.page > 1) {
             this.observer.unobserve(this.lastElement)
-            this.lastElement = this.masonryLayout.shadowRoot.lastElementChild.lastElementChild;
+            this.lastElement = this.masonryLayout.getLastCard();
             this.observer.observe(this.lastElement)
           }
         break;
