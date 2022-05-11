@@ -8,7 +8,6 @@ class StateManager {
     this.#appId = appId;
     const savedState = JSON.parse(window.localStorage.getItem(`state-${this.#appId}`));
     this.#state = { ...savedState, ...initialState };
-    console.log(this.#state);
     this.#listeners = [];
     this.#stateActions = stateActions;
   }
