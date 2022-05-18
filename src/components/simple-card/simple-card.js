@@ -98,7 +98,7 @@ class SimpleCard extends HTMLElement {
   
   updateLikedButton() {
     const payload = { id: this.id.slice(8), query: state.getState('query')};
-    state.dispatch('favorites', this.liked? 'add': 'remove', payload);
+    state.dispatch('favorites', this.liked? 'add': 'remove', payload, true);
     if (this.likeButton) {
       this.likeButton.innerHTML = this.liked
         ? `<img class="image-button" src='./assets/heart-solid.svg'>`
