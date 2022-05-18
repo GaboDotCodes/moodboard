@@ -16,7 +16,7 @@ class NavLink extends HTMLElement {
     this.aEl.href = this.to;
     this.aEl.addEventListener('click', (e) => {
       e.preventDefault();
-      router.load(routes[this.to.replace('/', '')])
+      router.load(routes[this.to.replace('/', '')]);
     });
   }
 
