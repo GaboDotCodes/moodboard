@@ -22,7 +22,6 @@ class StateManager {
     this.#state[field] = this.#stateActions[field](this.#state[field], action, payload);
     if (save) {
       const savedState = JSON.parse(window.localStorage.getItem(`state-${this.#appId}`));
-      console.log(savedState);
       if (savedState) {
         savedState[field] = this.#state[field];
         window.localStorage.setItem(`state-${this.#appId}`, JSON.stringify(savedState));
