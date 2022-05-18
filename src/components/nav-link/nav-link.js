@@ -11,8 +11,8 @@ class NavLink extends HTMLElement {
 
   connectedCallback() {
     const {router, routes } = state.getState();
-    this.aEl = this.shadowRoot.querySelector('a');
     if (!routes[this.to.replace('/', '')]) throw new Error(`NavLink to ${this.to} point to an undefined route`)
+    this.aEl = this.shadowRoot.querySelector('a');
     this.aEl.href = this.to;
     this.aEl.addEventListener('click', (e) => {
       e.preventDefault();
