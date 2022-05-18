@@ -8,8 +8,22 @@ class Router {
     Object.keys(routes).forEach(key => {
       if (!(routes[key] instanceof Route)) throw new Error(`routes.${key} must be an instance of Route`);
     })
+    if(!routes.error) throw new Error(`Routes must include an error route`);
+    if(!routes.home) throw new Error(`Routes must include a home route`);
     this.#container = container;
     this.#routes = routes;
+    this.initRouter();
+  }
+
+  initRouter() {
+    const { location: { pathname = '/' } } = window;
+    console.log();
+    if (pathname.slice(0,7) !== '/assets') {
+      const URI = pathname === '/'
+        ? this.#routes.home
+        : this.#routes[pathname.replace('/', '')];
+      this.load(URI);
+    }
   }
 
   load(page) {
