@@ -17,15 +17,14 @@ class Router {
 
   initRouter() {
     const { location: { pathname = '/' } } = window;
-    console.log();
     if (pathname.slice(0,7) !== '/assets') {
       const URI = pathname === '/'
         ? this.#routes.home
         : this.#routes[pathname.replace('/', '')];
-      this.load(URI);
+        this.load(URI);
+      }
     }
-  }
-
+    
   load(page) {
     const { path, view } = page || this.#routes.error;
     this.#container.innerHTML = view;

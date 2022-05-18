@@ -41,7 +41,7 @@ class ResultsLayout extends HTMLElement {
   connectedCallback() {
     this.masonryLayout = this.shadowRoot.querySelector('masonry-layout');
     this.observer = new IntersectionObserver(this.observerCallback, { threshold: 0.2 });
-    state.subscribe('query', this.listener)
+    state.subscribe('query', this.listener);
   }
 
   disconnectedCallback() {
