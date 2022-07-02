@@ -6,6 +6,8 @@ const getImages = async (query, page = 1, per_page = 20) => client.photos.search
 
 const getImage = async (id) => client.photos.show({ id })
 
+const getImagesById = async (ids) => Promise.all(ids.map((id) => getImage(id) ))
+
 export {
   getImages,
   getImage,

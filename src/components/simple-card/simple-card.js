@@ -1,5 +1,7 @@
-import styles from 'bundle-text:./simple-card.css';
+import ModalAlert from '../modal-alert/modal-alert';
 import state from '../../js/State/state';
+
+import styles from 'bundle-text:./simple-card.css';
 
 class SimpleCard extends HTMLElement {
   constructor() {
@@ -25,6 +27,14 @@ class SimpleCard extends HTMLElement {
       </footer>
     </div>
     `;
+  }
+
+  get modalAlertId() {
+    return `modal-alert-${this.imageId}`;
+  }
+  
+  get imageId() {
+    return this.id.slice(8);
   }
 
   get id() {
@@ -84,6 +94,12 @@ class SimpleCard extends HTMLElement {
   
   like() {
     this.liked = !this.liked;
+    const alert = this.liked
+      ? `<modal-alert id="${this.modalAlertId}" time-live="3000" unique><h1>Agregado</h1></modal-alert>`
+      : `<modal-alert id="${this.modalAlertId}" time-live="3000" unique><h1>Removido</h1></modal-alert>`
+    
+    const modals = document.querySelector('modals-container');
+    modals.insertAdjacentHTML('afterbegin', alert);
   }
 
   static observedAttributes = ["liked"];

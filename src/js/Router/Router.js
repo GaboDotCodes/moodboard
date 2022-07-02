@@ -20,6 +20,14 @@ class Router {
     const URI = pathname === '/'
       ? this.#routes.home
       : this.#routes[pathname.replace('/', '')];
+      
+    Object.keys(this.#routes).forEach(key => {
+      const { view, viewName } = this.#routes[key];
+      this.#container.insertAdjacentHTML('afterbegin', view);
+      const insertedEl = this.#container.querySelector(viewName);
+      insertedEl.style.position = 'absolute';
+    });
+    
     this.load(URI);
     window.addEventListener('popstate', (e) => {
       const { location: { pathname = '/' } } = window;
@@ -31,9 +39,17 @@ class Router {
   }
     
   load(page) {
-    const { location: { pathname = '/' } } = window;
-    const { path, view } = page || this.#routes.error;
-    this.#container.innerHTML = view;
+    const { location: { pathname = '/', href } } = window;
+    const params = new URL(href).searchParams;
+
+    const { path, viewName: viewNamePage } = page || this.#routes.error;
+
+    Object.keys(this.#routes).forEach(key => {
+      const { viewName } = this.#routes[key];
+      const insertedEl = this.#container.querySelector(viewName);
+      insertedEl.style.visibility = viewNamePage === viewName ? 'visible': 'hidden';
+    });
+
     if (pathname.replace('/', '') !== path) {
       window.history.pushState({}, null, path);
     }

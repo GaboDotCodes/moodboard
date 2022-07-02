@@ -4,6 +4,8 @@ import "../views/view-error/view-error";
 import "../views/view-home/view-home";
 import "../views/view-profile/view-profile";
 
+import "../components/modals-container/modals-container";
+
 import Router from "./Router/Router";
 import routes from "./Router/routes";
 import state from "./State/state";
@@ -19,4 +21,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     { link: '/home', text: 'Inicio' },
     { link: '/profile', text: 'Perfil' },
   ];
-})
+
+  container.insertAdjacentHTML('afterend', '<modals-container></modals-container>');
+});

@@ -13,6 +13,10 @@ class Route {
     return this.#path;
   }
 
+  get viewName() {
+    return this.#view;
+  }
+
   get view() {
     return `<${this.#view}></${this.#view}>`;
   }
